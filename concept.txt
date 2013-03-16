@@ -1,0 +1,70 @@
+Game name : World in Color
+____________________________________________________________________________________________
+
+What :
+	- Game settings :
+		- 2D Game
+		- Racing Game
+		- From 2 to 4 players
+
+	- Purpose of the game :
+		- Reaching the finish line before the other players
+		- Color the map as much as possible
+
+	- Game concepts :
+		- Each player has an attributed color
+		- The game will last X numbers of rounds (X will be fixed later)
+		- Each round the starting position of each player and the finish line will be randomly setted on the map
+		- A player will leave a piece of his color behind him as he moves around and slightly remove the other players colors
+		- When a player goes through his own color on the map, he will go faster
+		- When a player goes through the color of an opponent on the map, he will be slowed
+		- Each player will have a short sight uppon the map
+		- Different kind of bonuses will be setted on the map
+		- Different kind of obstacles / traps / shortcuts will be setted on the map
+
+When :
+	- Before the big bang
+
+Where :
+	- The void
+
+Who :
+	- Color spirits
+
+Why :
+	- To make the big bang happen its own way
+
+How :
+	- Coloring the universe
+
+____________________________________________________________________________________________
+
+Game elements :
+	- Actors :
+		- Color spirits
+
+	- Objects :
+		- Obstacles (Aka walls)
+		- Bonuses
+		- Traps (Aka black holes)
+		- Shortcuts (Aka teleporters)
+		- Color paths
+
+	- Constraints :
+		- Keeps going on after braking
+
+	- Displayed datas :
+		- Current round
+		- Number of victories
+		- Number of points
+		- Percentage of the map colored
+		- Round time
+
+Interractions :
+	- Color spirits :
+		- With Color Spirits -> No conflict
+		- With Obstacles -> Blocks or influences movement
+		- With Bonuses -> Bonus absorbed
+		- With Traps -> Player fall into the trap
+		- With Shortcuts -> Player is teleported
+		- With Color Paths -> Increase / Decrease of movement speed
