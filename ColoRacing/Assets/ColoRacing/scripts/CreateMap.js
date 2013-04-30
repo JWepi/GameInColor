@@ -6,17 +6,20 @@ var tile_prefab_ : Transform;
 var board_size_x_ : int;
 var board_size_z_ : int;
 
+
 function Start () {
 
-		var wall;
-		var bonus;
-		var blackHole;
 		var finish;
 		var i : int = 0;
 		var xTranslate : float = 0;
 		var zTranslate : float = 0;
 		var yRotate : float = 0;
-
+		var bhBoard : GameObject = new GameObject();
+		bhBoard.name = "BlackHoleBoard";
+		var bBoard : GameObject = new GameObject();
+		bBoard.name = "BonusBoard";
+		var wBoard : GameObject = new GameObject();
+		wBoard.name = "WallBoard";
 		
 		GameObject.Find("Wall1").transform.localScale.x = board_size_x_;
 		GameObject.Find("Wall2").transform.localScale.x = board_size_x_;
@@ -32,6 +35,9 @@ function Start () {
 
 		while (i < 20)
 		{
+			var blackHole : Transform;
+			var bonus : Transform;
+			var wall : Transform;
 			yRotate = Random.Range(0, 90);
 			xTranslate = Random.Range(0, board_size_x_ - 10);
 			zTranslate = Random.Range(0, board_size_z_ - 10);
@@ -39,15 +45,20 @@ function Start () {
 			wallPref.transform.localScale.y = 20;
 			wallPref.transform.localScale.z = 1;
 			wall = Instantiate(wallPref, Vector3(xTranslate, 10, zTranslate), Quaternion.Euler(0.0, yRotate, 0.0));
+			wall.name = "Wall" + xTranslate + "," + zTranslate;
+			wall.parent = wBoard.transform;
 			
 			xTranslate = Random.Range(0, board_size_x_ - 10);
 			zTranslate = Random.Range(0, board_size_z_ - 10);
 			bonus = Instantiate(bonusPref, Vector3(xTranslate, 3, zTranslate), Quaternion.identity);
+			bonus.name = "Bonus" + xTranslate + "," + zTranslate;
+			bonus.parent = bBoard.transform;
 			
 			xTranslate = Random.Range(0, board_size_x_ - 10);
 			zTranslate = Random.Range(0, board_size_z_ - 10);
 			blackHole = Instantiate(blackHolePref, Vector3(xTranslate, 3, zTranslate), Quaternion.identity);
-
+			blackHole.name = "BlackHole" + xTranslate + "," + zTranslate;
+			blackHole.parent = bhBoard.transform;
 			++i;
 		}
 	
@@ -64,7 +75,7 @@ function Start () {
 			for ( var z : int = 0; z < board_size_z_; z+=10 )
 			{
 				var tile : Transform = Instantiate(tile_prefab_, Vector3(x+5,-0.5,z+5), Quaternion.identity);
-				tile.name = "Tile" + x + z;
+				tile.name = "Tile" + x + "," + z;
 				tile.renderer.material.color = Color.black;
 				tile.parent = board.transform;
 			}

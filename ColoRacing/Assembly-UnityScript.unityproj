@@ -48,6 +48,7 @@
      <Compile Include="Assets\ColoRacing\scripts\CreateMap.js" />
      <Compile Include="Assets\ColoRacing\scripts\IPBehavior.js" />
      <Compile Include="Assets\ColoRacing\scripts\JoinGameBehavior.js" />
+     <Compile Include="Assets\ColoRacing\scripts\Tilebehavior.js" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
   </ItemGroup>
