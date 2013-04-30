@@ -44,27 +44,44 @@ Game elements :
 		- Color spirits
 
 	- Objects :
-		- Obstacles (Aka walls)
+		- Obstacles (Walls)
 		- Bonuses
-		- Traps (Aka black holes)
-		- Shortcuts (Aka teleporters)
+		- Traps
+		- Teleporters (Black holes)
 		- Color paths
 
 	- Constraints :
-		- Keeps going on after braking
+		- Basic common physical constraints
 
 	- Displayed datas :
 		- Current round
 		- Number of victories
 		- Number of points
 		- Percentage of the map colored
-		- Round time
+		- Round timer
 
 Interractions :
 	- Color spirits :
-		- With Color Spirits -> No conflict
+		- With Color Spirits -> No conflict (?)
 		- With Obstacles -> Blocks or influences movement
 		- With Bonuses -> Bonus absorbed
-		- With Traps -> Player fall into the trap
-		- With Shortcuts -> Player is teleported
+		- With Traps -> Traps absorbed
+		- With Teleporters -> Player is teleported
 		- With Color Paths -> Increase / Decrease of movement speed
+
+Game events linked to game elements :
+	- Bonus :
+		- Color explosion (All tiles are colored in a 5x5 area around the bonus location)
+		- Improved sight of vision (The player will be allowed to see farther [until the end of the round])
+		- Improved coloring rate (The player will put more color when going through tiles than usual [until the end of the round])
+		- Improved speed (The player will move faster [until the end of the round])
+		- Non blocking walls (The player will be able to go through the walls [until the end of the round])
+		- Ennemy color immunity (The player speed can't be lowered when going through ennemy tiles [until the end of the round])
+
+	- Traps :
+		- Reduced sight of vision (The player will see less far [until the end of the round])
+		- Not coloring any more (The player won't be able to put any more color [until the end of the round])
+		- Slowed down (The player will move slower [until the end of the round])
+		- Reversed movements (The left and right keys will be reversed as well as the up and down keys for a short duration)
+		- Finish line indicator disapeared (The finish line indicator will disapear for a short duration)
+		- Return to starting point (The player will be teleported to his starting point)
