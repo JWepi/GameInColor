@@ -4,14 +4,6 @@ var nbpass : float[] = new float[4];
 
 var total : int = 0;
 
-function Start ()
-{
-}
-
-function Update ()
-{
-}
-
 function WentThrough(idplayer : int, player : Transform, tile : ControllerColliderHit)
 {
 
@@ -44,4 +36,19 @@ function WentThrough(idplayer : int, player : Transform, tile : ControllerCollid
 		tile.transform.renderer.material.color.g += player.transform.renderer.material.color.g * (tileC.nbpass[i] / 100);
 		tile.transform.renderer.material.color.b += player.transform.renderer.material.color.b * (tileC.nbpass[i] / 100);
 	}
+}
+
+function UpgradeSpeed(idplayer : int, player : Transform, tile : ControllerColliderHit)
+{
+	var playerC : CharacterMove = player.gameObject.GetComponent(CharacterMove);
+	var tileC : Tilebehavior = tile.gameObject.GetComponent(Tilebehavior);
+	var playerScore : float = tileC.nbpass[idplayer];
+	var speedToAdd : float;
+	var normalSpeed : float = 50;
+	var maxSpeed : float = 100;
+
+	speedToAdd = normalSpeed + playerC.speed * (playerScore / 100);
+	playerC.speed  = speedToAdd;
+	if (playerC.speed > maxSpeed)
+		playerC.speed = maxSpeed;
 }

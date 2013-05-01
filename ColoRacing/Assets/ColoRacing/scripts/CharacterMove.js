@@ -7,6 +7,8 @@ var lastInterval : double;
 
 var id : int;
 
+var nbRound : int = 1;
+
 var tileBehavior : Tilebehavior;
 
 function Start ()
@@ -42,8 +44,12 @@ function TeleportPlayer(hit : ControllerColliderHit)
 		childTab[i] = child;
 		i++;
 	}
-	var randBH : int = Random.Range(1, nbChild);
-	Debug.Log(randBH);
+	var randBH : int = Random.Range(0, nbChild - 1);
+	while (childTab[randBH].transform.position.Equals(transform.position))
+	{
+		randBH = Random.Range(0, nbChild - 1);
+		//Debug.Log("SAME");
+	}
 
 	for (i = 0; i < nbChild; i++)
 	{
@@ -51,8 +57,56 @@ function TeleportPlayer(hit : ControllerColliderHit)
 		{
 			transform.position.x = childTab[i].position.x;
 			transform.position.z = childTab[i].position.z;
+			transform.position.y = 5;
 		}
 	}
+}
+
+function StartNextRound(message : GameObject)
+{
+	nbRound += 1;
+	/*var wallBoard : GameObject = GameObject.Find("WallBoard");
+	var bonusBoard : GameObject = GameObject.Find("BonusBoard");
+	var playerBoard : GameObject = GameObject.Find("PlayerBoard");
+	var blackholeBoard : GameObject = GameObject.Find("BlackHoleBoard");*/
+	Destroy(GameObject.Find("WallBoard"));
+	Destroy(GameObject.Find("BonusBoard"));
+	Destroy(GameObject.Find("PlayerBoard"));
+	Destroy(GameObject.Find("BlackHoleBoard"));
+	var mapBehavior : CreateMap = GameObject.Find("Terrain").GetComponent(CreateMap);
+	mapBehavior.GenerateBlackHole();
+	mapBehavior.GenerateBonus();
+	mapBehavior.GenerateWall();
+	mapBehavior.GenerateFinish();
+	mapBehavior.GeneratePlayerSpawn();
+	
+	//var message : GameObject = GameObject.Find("FinishMessage");
+	message.guiText.text = "";
+	//message.gameObject.SetActive(false);
+}
+
+function FinishRace()
+{
+	var i : int = 0;
+	var cd : int;
+	var message : GameObject = GameObject.Find("FinishMessage");
+
+	message.guiText.text = transform.name + " HAS WIN";
+	//message.gameObject.SetActive(true);
+	yield WaitForSeconds(2);
+	while (i < 3)
+	{
+		cd = 3 - i;
+		message.guiText.text = cd.ToString();
+		i++;
+		yield WaitForSeconds(1);
+	}
+	//message.gameObject.SetActive(false);
+	/*if (nbRound == 3)
+	{
+		//Final score
+	}*/
+	StartNextRound(message);
 }
 
 function OnControllerColliderHit(hit : ControllerColliderHit)
@@ -61,13 +115,7 @@ function OnControllerColliderHit(hit : ControllerColliderHit)
 	
 	if (hit.transform.tag == "MapGride" && (timeNow > lastInterval) && (timeNow - lastInterval > 0.1))
 	{
-		//hit.transform.renderer.material.color.r += (transform.renderer.material.color.r + 5) * Time.deltaTime;
-		//hit.transform.renderer.material.color.g += 0;
-		//hit.transform.renderer.material.color.b += 0;
-
-		
-
-		// Call TileBehavior WentThrough function
+		tileBehavior.UpgradeSpeed(id, transform, hit);
 		tileBehavior.WentThrough(id, transform, hit);
 		lastInterval = timeNow;
 	}
@@ -76,15 +124,18 @@ function OnControllerColliderHit(hit : ControllerColliderHit)
 		Destroy(hit.gameObject);
 		// Call bonus function
 	}
-	else if (hit.transform.tag == "BlackHole")
+	else if (hit.transform.tag == "BlackHole" && (timeNow > lastInterval) && (timeNow - lastInterval > 0.05))
 	{
 		// Call teleporte function
 		TeleportPlayer(hit);
+		lastInterval = timeNow;
 	}
-	else if (hit.transform.tag == "Finish")
+	else if (hit.transform.tag == "Finish" && (timeNow > lastInterval) && (timeNow - lastInterval > 0.05))
 	{
-		Debug.Log("FINISH");
+		Destroy(hit.gameObject);
+		lastInterval = timeNow;
 		// End race
+		FinishRace();
 	}
 }
 
