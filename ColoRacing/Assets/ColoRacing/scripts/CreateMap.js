@@ -28,6 +28,8 @@ function Start ()
 		GenerateWall();
 		GenerateFinish();
 		GeneratePlayerSpawn();
+		GameObject.Find("Map light").transform.position.x = board_size_x_ / 2;
+		GameObject.Find("Map light").transform.position.z = board_size_z_ / 2;
 		GameObject.Find("BonusMessage").SetActive(true);
 }
 

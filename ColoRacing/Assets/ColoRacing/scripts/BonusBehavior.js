@@ -10,18 +10,22 @@ function ColorFive(idplayer : int, player : Transform, bonus : ControllerCollide
 	
 	x = Mathf.Round(player.position.x / 10) * 10;
 	z = Mathf.Round(player.position.z / 10) * 10;
-	xTile = x - 20;
-	zTile = z - 20;
-	while (xTile < x + 20)
+	
+	for (var i = 0; i < 3; i++)
 	{
-		while(zTile < z + 20)
-		{
-			var tile : GameObject = GameObject.Find("Tile"+xTile+","+zTile);
-			tile.GetComponent(Tilebehavior).WentThrough(idplayer, player, tile);
-			zTile += 10;
-		}
+		xTile = x - 20;
 		zTile = z - 20;
-		xTile += 10;
+		while (xTile < x + 20)
+		{
+			while(zTile < z + 20)
+			{
+				var tile : GameObject = GameObject.Find("Tile"+xTile+","+zTile);
+				tile.GetComponent(Tilebehavior).WentThrough(idplayer, player, tile);
+				zTile += 10;
+			}
+			zTile = z - 20;
+			xTile += 10;
+		}
 	}
 }
 
@@ -66,24 +70,24 @@ function RunBonus(idplayer : int, player : Transform, bonus : ControllerCollider
 	
 	if (bOrM == 0) //Bonus
 	{
-		var bonusNumber : int = Random.Range(0, 4);
+		var bonusNumber : int = Random.Range(0, 11);
 		
-		if (bonusNumber == 0)
+		if (bonusNumber >= 0 || bonusNumber <= 4)
 		{
 			ColorFive(idplayer, player, bonus);
 			message.guiText.text = "Color Splash";
 		}
-		else if (bonusNumber == 1)
+		else if (bonusNumber >= 5 || bonusNumber <= 7)
 		{
 			ImproveSight(player, true);
 			message.guiText.text = "Improve Sight";
 		}
-		else if (bonusNumber == 2)
+		else if (bonusNumber == 8)
 		{
 			ImproveColorRate(player, true);
 			message.guiText.text = "Improve Color Rate";
 		}
-		else if (bonusNumber == 3)
+		else if (bonusNumber >= 9 || bonusNumber <= 10)
 		{
 			ImproveSpeed(player, true);
 			message.guiText.text = "Improve Speed";
@@ -91,24 +95,24 @@ function RunBonus(idplayer : int, player : Transform, bonus : ControllerCollider
 	}
 	else if (bOrM == 1) //Malus
 	{
-		var malusNumber : int = Random.Range(0, 4);
+		var malusNumber : int = Random.Range(0, 11);
 		
-		if (malusNumber == 0)
+		if (malusNumber >= 0 && malusNumber <= 2)
 		{
 			ImproveSight(player, false);
 			message.guiText.text = "Lower Sight";
 		}
-		else if (malusNumber == 1)
+		else if (malusNumber >= 3 && malusNumber <= 5)
 		{
 			ImproveColorRate(player, false);
 			message.guiText.text = "Lower ColorRate";
 		}
-		else if (malusNumber == 2)
+		else if (malusNumber >= 6 && malusNumber <= 9)
 		{
 			ImproveSpeed(player, false);
 			message.guiText.text = "Lower Speed";
 		}
-		else if (malusNumber == 3)
+		else if (malusNumber == 10)
 		{
 			StopColor(player);
 			message.guiText.text = "No Color";

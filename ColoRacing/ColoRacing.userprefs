@@ -1,9 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\ColoRacing\scripts\CreateMap.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\ColoRacing\scripts\TextBehavior.cs">
     <Files>
+      <File FileName="Assets\ColoRacing\scripts\CreateMap.js" Line="14" Column="15" />
       <File FileName="Assets\ColoRacing\scripts\TextBehavior.cs" Line="22" Column="40" />
-      <File FileName="Assets\ColoRacing\scripts\CreateMap.js" Line="111" Column="29" />
+      <File FileName="Assets\ColoRacing\scripts\BonusBehavior.js" Line="110" Column="28" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
