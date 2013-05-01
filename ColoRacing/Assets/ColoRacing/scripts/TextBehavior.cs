@@ -19,7 +19,7 @@ public class TextBehavior : MonoBehaviour {
 	{
 		//change text color
 		this.color = renderer.material.color;
-		renderer.material.color = Color.grey;
+		renderer.material.color = Color.black;
 	}
 	
 	void OnMouseExit()

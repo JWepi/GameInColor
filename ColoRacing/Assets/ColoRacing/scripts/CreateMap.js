@@ -51,23 +51,22 @@ function GenerateMap()
 
 function GenerateWall()
 {
+	var nbObject : int = board_size_x_ / 20;
 	var xTranslate : float = 0;
 	var zTranslate : float = 0;
 	var yRotate : float = 0;
 	var wBoard : GameObject = new GameObject();
 	wBoard.name = "WallBoard";
-	xTranslate = Random.Range(0, board_size_x_ - 10);
-	zTranslate = Random.Range(0, board_size_z_ - 10);
-
-	for (var i : int = 0; i < 20; i++)
+	
+	for (var i : int = 0; i < nbObject; i++)
 	{
 		var wall : Transform;
 		yRotate = Random.Range(0, 180);
-		xTranslate = Random.Range(0, board_size_x_ - 10);
-		zTranslate = Random.Range(0, board_size_z_ - 10);
-		wallPref.transform.localScale.x = 50;
+		wallPref.transform.localScale.x = Random.Range(20, 100);
 		wallPref.transform.localScale.y = 20;
 		wallPref.transform.localScale.z = 1;
+		xTranslate = Random.Range(wallPref.transform.localScale.x / 2, board_size_x_ - wallPref.transform.localScale.x / 2);
+		zTranslate = Random.Range(wallPref.transform.localScale.x / 2, board_size_z_ - wallPref.transform.localScale.x / 2);
 		wall = Instantiate(wallPref, Vector3(xTranslate, 10, zTranslate), Quaternion.Euler(0.0, yRotate, 0.0));
 		wall.name = "Wall" + xTranslate + "," + zTranslate;
 		wall.parent = wBoard.transform;
@@ -76,18 +75,17 @@ function GenerateWall()
 
 function GenerateBlackHole()
 {
+	var nbObject : int = board_size_x_ / 100;
 	var xTranslate : float = 0;
 	var zTranslate : float = 0;
 	var bhBoard : GameObject = new GameObject();
 	bhBoard.name = "BlackHoleBoard";
-	xTranslate = Random.Range(0, board_size_x_ - 10);
-	zTranslate = Random.Range(0, board_size_z_ - 10);
-
-	for (var i : int =0; i < 4; i++)
+	
+	for (var i : int =0; i < nbObject; i++)
 	{
 		var blackHole : Transform;
-		xTranslate = Random.Range(0, board_size_x_ - 30);
-		zTranslate = Random.Range(0, board_size_z_ - 30);
+		xTranslate = Random.Range(30, board_size_x_ - 30);
+		zTranslate = Random.Range(30, board_size_z_ - 30);
 		blackHole = Instantiate(blackHolePref, Vector3(xTranslate, 3, zTranslate), Quaternion.identity);
 		blackHole.name = "BlackHole" + xTranslate + "," + zTranslate;
 		blackHole.parent = bhBoard.transform;
@@ -108,18 +106,17 @@ function GenerateFinish()
 
 function GenerateBonus()
 {
+	var nbObject : int = board_size_x_ / 14;
 	var xTranslate : float = 0;
 	var zTranslate : float = 0;
 	var bBoard : GameObject = new GameObject();
 	bBoard.name = "BonusBoard";
-	xTranslate = Random.Range(0, board_size_x_ - 10);
-	zTranslate = Random.Range(0, board_size_z_ - 10);
 
-	for (var i : int =0; i < 10; i++)
+	for (var i : int =0; i < nbObject; i++)
 	{
 		var bonus : Transform;
-		xTranslate = Random.Range(0, board_size_x_ - 20);
-		zTranslate = Random.Range(0, board_size_z_ - 20);
+		xTranslate = Random.Range(20, board_size_x_ - 20);
+		zTranslate = Random.Range(20, board_size_z_ - 20);
 		bonus = Instantiate(bonusPref, Vector3(xTranslate, 3, zTranslate), Quaternion.identity);
 		bonus.name = "Bonus" + xTranslate + "," + zTranslate;
 		bonus.parent = bBoard.transform;
@@ -132,8 +129,7 @@ function GeneratePlayerSpawn()
 	var zTranslate : float = 0;
 	var pBoard : GameObject = new GameObject();
 	pBoard.name = "PlayerBoard";
-	xTranslate = Random.Range(0, board_size_x_ - 10);
-	zTranslate = Random.Range(0, board_size_z_ - 10);
+
 	for (var i : int =0; i < 1; i++)
 	{
 		var player : Transform;

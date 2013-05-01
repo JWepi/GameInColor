@@ -46,6 +46,7 @@
   <ItemGroup>
      <Compile Include="Assets\ColoRacing\scripts\BonusBehavior.js" />
      <Compile Include="Assets\ColoRacing\scripts\CharacterMove.js" />
+     <Compile Include="Assets\ColoRacing\scripts\CreateGameBehavior.js" />
      <Compile Include="Assets\ColoRacing\scripts\CreateMap.js" />
      <Compile Include="Assets\ColoRacing\scripts\IPBehavior.js" />
      <Compile Include="Assets\ColoRacing\scripts\JoinGameBehavior.js" />
