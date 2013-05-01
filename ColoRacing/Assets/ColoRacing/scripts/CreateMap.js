@@ -28,6 +28,7 @@ function Start ()
 		GenerateWall();
 		GenerateFinish();
 		GeneratePlayerSpawn();
+		GameObject.Find("BonusMessage").SetActive(true);
 }
 
 function GenerateMap()

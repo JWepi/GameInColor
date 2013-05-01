@@ -1,6 +1,6 @@
 #pragma strict
 var speed : float = 3.0;
-
+var normalSpeed : float = 50;
 var rotateSpeed : float = 3.0;
 
 var lastInterval : double;
@@ -10,10 +10,26 @@ var id : int;
 var nbRound : int = 1;
 
 var tileBehavior : Tilebehavior;
+var bonusBehavior : BonusBehavior;
+
+var startX : float;
+var startZ : float;
+
+var colorRate : float = 5;
+var uncolorRate : float = 3;
+var coloring : boolean = true;
 
 function Start ()
 {
 	lastInterval = Time.realtimeSinceStartup;
+	startX = transform.position.x;
+	startZ = transform.position.z;
+	transform.FindChild("PlayerCamera").camera.farClipPlane = 120;
+	colorRate = 5;
+	uncolorRate = 3;
+	normalSpeed = 50;
+	speed = 50;
+	coloring = true;
 }
 
 function Update ()
@@ -65,10 +81,8 @@ function TeleportPlayer(hit : ControllerColliderHit)
 function StartNextRound(message : GameObject)
 {
 	nbRound += 1;
-	/*var wallBoard : GameObject = GameObject.Find("WallBoard");
-	var bonusBoard : GameObject = GameObject.Find("BonusBoard");
-	var playerBoard : GameObject = GameObject.Find("PlayerBoard");
-	var blackholeBoard : GameObject = GameObject.Find("BlackHoleBoard");*/
+	if (nbRound == 3)
+		Application.Quit();
 	Destroy(GameObject.Find("WallBoard"));
 	Destroy(GameObject.Find("BonusBoard"));
 	Destroy(GameObject.Find("PlayerBoard"));
@@ -80,9 +94,7 @@ function StartNextRound(message : GameObject)
 	mapBehavior.GenerateFinish();
 	mapBehavior.GeneratePlayerSpawn();
 	
-	//var message : GameObject = GameObject.Find("FinishMessage");
 	message.guiText.text = "";
-	//message.gameObject.SetActive(false);
 }
 
 function FinishRace()
@@ -92,7 +104,6 @@ function FinishRace()
 	var message : GameObject = GameObject.Find("FinishMessage");
 
 	message.guiText.text = transform.name + " HAS WIN";
-	//message.gameObject.SetActive(true);
 	yield WaitForSeconds(2);
 	while (i < 3)
 	{
@@ -101,7 +112,6 @@ function FinishRace()
 		i++;
 		yield WaitForSeconds(1);
 	}
-	//message.gameObject.SetActive(false);
 	/*if (nbRound == 3)
 	{
 		//Final score
@@ -113,22 +123,27 @@ function OnControllerColliderHit(hit : ControllerColliderHit)
 {
 	var timeNow = Time.realtimeSinceStartup;
 	
-	if (hit.transform.tag == "MapGride" && (timeNow > lastInterval) && (timeNow - lastInterval > 0.1))
+	if (hit.transform.tag == "MapGride" && (timeNow > lastInterval) && (timeNow - lastInterval > 0.1) && coloring == true)
 	{
-		tileBehavior.UpgradeSpeed(id, transform, hit);
-		tileBehavior.WentThrough(id, transform, hit);
+		tileBehavior.ChangeSpeed(id, transform, hit.gameObject);
+		tileBehavior.WentThrough(id, transform, hit.gameObject);
 		lastInterval = timeNow;
 	}
 	else if (hit.transform.tag == "Bonus")
 	{
+		var message : GameObject = GameObject.Find("BonusMessage");
 		Destroy(hit.gameObject);
 		// Call bonus function
+		bonusBehavior.RunBonus(id, transform, hit, message);
+		yield WaitForSeconds(0.5);
+		message.guiText.text = "";
 	}
 	else if (hit.transform.tag == "BlackHole" && (timeNow > lastInterval) && (timeNow - lastInterval > 0.05))
 	{
 		// Call teleporte function
 		TeleportPlayer(hit);
 		lastInterval = timeNow;
+		yield WaitForSeconds(0.5);
 	}
 	else if (hit.transform.tag == "Finish" && (timeNow > lastInterval) && (timeNow - lastInterval > 0.05))
 	{

@@ -1,10 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\ColoRacing\scripts\CharacterMove.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\ColoRacing\scripts\BonusBehavior.js">
     <Files>
-      <File FileName="Assets\ColoRacing\scripts\CharacterMove.js" Line="141" Column="1" />
-      <File FileName="Assets\ColoRacing\scripts\CreateMap.js" Line="30" Column="25" />
-      <File FileName="Assets\ColoRacing\scripts\Tilebehavior.js" Line="54" Column="2" />
+      <File FileName="Assets\ColoRacing\scripts\BonusBehavior.js" Line="94" Column="41" />
+      <File FileName="Assets\ColoRacing\scripts\Tilebehavior.js" Line="6" Column="1" />
+      <File FileName="Assets\ColoRacing\scripts\CharacterMove.js" Line="141" Column="49" />
+      <File FileName="Assets\ColoRacing\scripts\CreateMap.js" Line="31" Column="51" />
       <File FileName="Assets\ColoRacing\scripts\IPBehavior.js" Line="1" Column="1" />
       <File FileName="Assets\ColoRacing\scripts\JoinGameBehavior.js" Line="1" Column="1" />
     </Files>
