@@ -66,18 +66,18 @@ function StopColor(player : Transform)
 
 function RunBonus(idplayer : int, player : Transform, bonus : ControllerColliderHit, message : GameObject)
 {
-	var bOrM : int = Random.Range(0, 2);
+	var bOrM : int = Random.Range(0, 4);
 	
-	if (bOrM == 0) //Bonus
+	if (bOrM >= 0 && bOrM <= 2) //Bonus
 	{
 		var bonusNumber : int = Random.Range(0, 11);
-		
-		if (bonusNumber >= 0 || bonusNumber <= 4)
+			
+		if (bonusNumber >= 0 && bonusNumber <= 5)
 		{
 			ColorFive(idplayer, player, bonus);
 			message.guiText.text = "Color Splash";
 		}
-		else if (bonusNumber >= 5 || bonusNumber <= 7)
+		else if (bonusNumber >= 6 && bonusNumber <= 7)
 		{
 			ImproveSight(player, true);
 			message.guiText.text = "Improve Sight";
@@ -87,13 +87,13 @@ function RunBonus(idplayer : int, player : Transform, bonus : ControllerCollider
 			ImproveColorRate(player, true);
 			message.guiText.text = "Improve Color Rate";
 		}
-		else if (bonusNumber >= 9 || bonusNumber <= 10)
+		else if (bonusNumber >= 9 && bonusNumber <= 10)
 		{
 			ImproveSpeed(player, true);
 			message.guiText.text = "Improve Speed";
 		}
 	}
-	else if (bOrM == 1) //Malus
+	else if (bOrM == 3) //Malus
 	{
 		var malusNumber : int = Random.Range(0, 11);
 		

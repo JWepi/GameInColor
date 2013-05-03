@@ -7,6 +7,8 @@ var tile_prefab_ : Transform;
 var board_size_x_ : int;
 var board_size_z_ : int;
 
+var nbRound : int = 0;
+
 
 function Start () 
 {
@@ -53,7 +55,7 @@ function GenerateMap()
 
 function GenerateWall()
 {
-	var nbObject : int = board_size_x_ / 20;
+	var nbObject : int = board_size_x_ / 12;
 	var xTranslate : float = 0;
 	var zTranslate : float = 0;
 	var yRotate : float = 0;
@@ -98,8 +100,8 @@ function GenerateFinish()
 {
 	var xTranslate : float = 0;
 	var zTranslate : float = 0;
-	xTranslate = Random.Range(0, board_size_x_ - 10);
-	zTranslate = Random.Range(0, board_size_z_ - 10);
+	xTranslate = Random.Range(board_size_x_ / 2 - 40, board_size_x_ / 2 + 40);
+	zTranslate = Random.Range(board_size_z_ / 2 - 40, board_size_z_ / 2 + 40);
 
 	var finish;
 	finish = Instantiate(finishPref, Vector3(xTranslate, 3, zTranslate), Quaternion.identity);
@@ -135,8 +137,8 @@ function GeneratePlayerSpawn()
 	for (var i : int =0; i < 1; i++)
 	{
 		var player : Transform;
-		xTranslate = Random.Range(0, board_size_x_ - 20);
-		zTranslate = Random.Range(0, board_size_z_ - 20);
+		xTranslate = Random.Range(10, board_size_x_ / 5);
+		zTranslate = Random.Range(10, board_size_z_ / 5);
 		player = Instantiate(playerPref, Vector3(xTranslate, 10, zTranslate), Quaternion.identity);
 		player.name = "Player" + " " + i;
 		player.parent = pBoard.transform;

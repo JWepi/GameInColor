@@ -80,9 +80,10 @@ function TeleportPlayer(hit : ControllerColliderHit)
 
 function StartNextRound(message : GameObject)
 {
-	nbRound += 1;
-	if (nbRound == 3)
-		Application.Quit();
+	var mapC : CreateMap = GameObject.Find("Terrain").gameObject.GetComponent(CreateMap);
+	mapC.nbRound += 1;
+	if (mapC.nbRound == 3)
+		Application.LoadLevel(0);
 	Destroy(GameObject.Find("WallBoard"));
 	Destroy(GameObject.Find("BonusBoard"));
 	Destroy(GameObject.Find("PlayerBoard"));
@@ -123,10 +124,11 @@ function OnControllerColliderHit(hit : ControllerColliderHit)
 {
 	var timeNow = Time.realtimeSinceStartup;
 	
-	if (hit.transform.tag == "MapGride" && (timeNow > lastInterval) && (timeNow - lastInterval > 0.1) && coloring == true)
+	if (hit.transform.tag == "MapGride" && (timeNow > lastInterval) && (timeNow - lastInterval > 0.1))
 	{
 		tileBehavior.ChangeSpeed(id, transform, hit.gameObject);
-		tileBehavior.WentThrough(id, transform, hit.gameObject);
+		if (coloring == true)
+			tileBehavior.WentThrough(id, transform, hit.gameObject);
 		lastInterval = timeNow;
 	}
 	else if (hit.transform.tag == "Bonus")
