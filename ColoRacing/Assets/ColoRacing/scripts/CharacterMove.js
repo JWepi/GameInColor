@@ -1,4 +1,3 @@
-#pragma strict
 var speed : float = 3.0;
 var normalSpeed : float = 50;
 var rotateSpeed : float = 3.0;
@@ -7,8 +6,6 @@ var lastInterval : double;
 
 var id : int;
 
-var nbRound : int = 1;
-
 var tileBehavior : Tilebehavior;
 var bonusBehavior : BonusBehavior;
 
@@ -16,11 +13,16 @@ var startX : float;
 var startZ : float;
 
 var colorRate : float = 5;
-var uncolorRate : float = 3;
+var uncolorRate : float = 2;
 var coloring : boolean = true;
 
-function Start ()
+@script RequireComponent(NetworkView)
+
+function Start()
 {
+	//if (gameObject.GetComponent(AudioListener).enabled == null)
+	//networkView.RPC("setOwner", RPCMode.Server, Network.player);
+	var message : Transform = transform.FindChild("BonusMessage");
 	lastInterval = Time.realtimeSinceStartup;
 	startX = transform.position.x;
 	startZ = transform.position.z;
@@ -32,92 +34,89 @@ function Start ()
 	coloring = true;
 }
 
+/*function OnConnectedToServer()
+{
+Debug.Log("TEST");
+	/*var networkC : NetworkBehavior = GameObject.Find("NetworkManager").GetComponent(NetworkBehavior);
+	networkC.SpawnPlayer();
+	if(!networkView.isMine) 
+		Destroy(GameObject.FindChild("PlayerCamera"));
+	lastInterval = Time.realtimeSinceStartup;
+	startX = transform.position.x;
+	startZ = transform.position.z;
+	transform.FindChild("PlayerCamera").camera.farClipPlane = 120;
+	colorRate = 5;
+	uncolorRate = 3;
+	normalSpeed = 50;
+	speed = 50;
+	coloring = true;
+}*/
+/*
+    @RPC
+    function setOwner(player : NetworkPlayer) : void {
+        Debug.Log("Setting the owner.");
+        owner = player;
+        if(player == Network.player){
+            //So it just so happens that WE are the player in question,
+            //which means we can enable this control again
+            enabled=true;
+        }
+        else {
+            //Disable a bunch of other things here that are not interesting:
+            if (GetComponent(Camera)) {
+                GetComponent(Camera).enabled = false;
+            }
+            
+            if (GetComponent(AudioListener)) {
+                GetComponent(AudioListener).enabled = false;
+            }
+            
+            if (GetComponent(GUILayer)) {
+                GetComponent(GUILayer).enabled = false;
+            }
+        }
+    }
+    
+    @RPC
+    function getOwner() : NetworkPlayer {
+        return owner;
+    }
+*/
 function Update ()
 {
-	var controller : CharacterController = GetComponent(CharacterController);
-	transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
-	var forward : Vector3 = transform.TransformDirection(Vector3.forward);
-	var curSpeed : float = speed * Input.GetAxis ("Vertical");
-	controller.SimpleMove(forward * curSpeed);
+	if (networkView.isMine)
+	{
+		var controller : CharacterController = GetComponent(CharacterController);
+		transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
+		var forward : Vector3 = transform.TransformDirection(Vector3.forward);
+		var curSpeed : float = speed * Input.GetAxis ("Vertical");
+		controller.SimpleMove(forward * curSpeed);
+	}
+	else
+	{
+		enabled = false;
+	}
 }
 
 function TeleportPlayer(hit : ControllerColliderHit)
 {
-	var mapX : float = GameObject.Find("Wall1").transform.localScale.x;
-	var nbChild : float = 0;
-	var parent : Transform = hit.transform.parent.gameObject.transform;
 	var i : int = 0;
-	for (var child : Transform in parent)
-	{
-		nbChild++;
-		i++;
-	}	
-	var childTab : Transform[] = new Transform[nbChild];
-	i = 0;
-	
-	for (var child : Transform in parent)
-	{
-		childTab[i] = child;
-		i++;
-	}
-	var randBH : int = Random.Range(0, nbChild - 1);
-	while (childTab[randBH].transform.position.Equals(transform.position))
-	{
-		randBH = Random.Range(0, nbChild - 1);
-		//Debug.Log("SAME");
-	}
+	var blackHoleArray : GameObject[] = GameObject.FindGameObjectsWithTag("BlackHole");
 
-	for (i = 0; i < nbChild; i++)
+	var randBH : int = Random.Range(0, blackHoleArray.length);
+
+	while (randBH == id)
+		randBH = Random.Range(0, blackHoleArray.length);
+
+	for (i = 0; i < blackHoleArray.length - 1; i++)
 	{
 		if (i == randBH)
 		{
-			transform.position.x = childTab[i].position.x;
-			transform.position.z = childTab[i].position.z;
+			transform.position.x = blackHoleArray[i].transform.position.x;
+			transform.position.z = blackHoleArray[i].transform.position.z;
 			transform.position.y = 5;
 		}
 	}
-}
-
-function StartNextRound(message : GameObject)
-{
-	var mapC : CreateMap = GameObject.Find("Terrain").gameObject.GetComponent(CreateMap);
-	mapC.nbRound += 1;
-	if (mapC.nbRound == 3)
-		Application.LoadLevel(0);
-	Destroy(GameObject.Find("WallBoard"));
-	Destroy(GameObject.Find("BonusBoard"));
-	Destroy(GameObject.Find("PlayerBoard"));
-	Destroy(GameObject.Find("BlackHoleBoard"));
-	var mapBehavior : CreateMap = GameObject.Find("Terrain").GetComponent(CreateMap);
-	mapBehavior.GenerateBlackHole();
-	mapBehavior.GenerateBonus();
-	mapBehavior.GenerateWall();
-	mapBehavior.GenerateFinish();
-	mapBehavior.GeneratePlayerSpawn();
-	
-	message.guiText.text = "";
-}
-
-function FinishRace()
-{
-	var i : int = 0;
-	var cd : int;
-	var message : GameObject = GameObject.Find("FinishMessage");
-
-	message.guiText.text = transform.name + " HAS WIN";
-	yield WaitForSeconds(2);
-	while (i < 3)
-	{
-		cd = 3 - i;
-		message.guiText.text = cd.ToString();
-		i++;
-		yield WaitForSeconds(1);
-	}
-	/*if (nbRound == 3)
-	{
-		//Final score
-	}*/
-	StartNextRound(message);
 }
 
 function OnControllerColliderHit(hit : ControllerColliderHit)
@@ -126,17 +125,17 @@ function OnControllerColliderHit(hit : ControllerColliderHit)
 	
 	if (hit.transform.tag == "MapGride" && (timeNow > lastInterval) && (timeNow - lastInterval > 0.1))
 	{
-		tileBehavior.ChangeSpeed(id, transform, hit.gameObject);
+		tileBehavior.ChangeSpeed(id - 1, transform, hit.gameObject);
 		if (coloring == true)
-			tileBehavior.WentThrough(id, transform, hit.gameObject);
+			tileBehavior.WentThrough(id - 1, transform, hit.gameObject);
 		lastInterval = timeNow;
 	}
 	else if (hit.transform.tag == "Bonus")
 	{
 		var message : GameObject = GameObject.Find("BonusMessage");
-		Destroy(hit.gameObject);
+		Network.Destroy(hit.gameObject);
 		// Call bonus function
-		bonusBehavior.RunBonus(id, transform, hit, message);
+		bonusBehavior.RunBonus(id - 1, transform, hit, message);
 		yield WaitForSeconds(0.5);
 		message.guiText.text = "";
 	}
@@ -149,11 +148,10 @@ function OnControllerColliderHit(hit : ControllerColliderHit)
 	}
 	else if (hit.transform.tag == "Finish" && (timeNow > lastInterval) && (timeNow - lastInterval > 0.05))
 	{
-		Destroy(hit.gameObject);
+		var networkManager : NetworkBehavior = GameObject.Find("NetworkManager").GetComponent(NetworkBehavior);
+		Network.Destroy(hit.gameObject);
 		lastInterval = timeNow;
 		// End race
-		FinishRace();
+		networkManager.FinishRace(gameObject);
 	}
 }
-
-@script RequireComponent(CharacterController)

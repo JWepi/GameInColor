@@ -54,8 +54,8 @@ function ImproveSpeed(player : Transform, IOrL : boolean)
 	}
 	else if (IOrL == false)
 	{
-		player.GetComponent(CharacterMove).speed = 30;
-		player.GetComponent(CharacterMove).normalSpeed = 30;
+		player.GetComponent(CharacterMove).speed = 40;
+		player.GetComponent(CharacterMove).normalSpeed = 40;
 	}
 }
 

@@ -1,12 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\ColoRacing\scripts\CreateMap.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\ColoRacing\scripts\NetworkBehavior.js">
     <Files>
-      <File FileName="Assets\ColoRacing\scripts\CreateMap.js" Line="58" Column="40" />
-      <File FileName="Assets\ColoRacing\scripts\CharacterMove.js" Line="1" Column="1" />
-      <File FileName="Assets\ColoRacing\scripts\TextBehavior.cs" Line="1" Column="1" />
-      <File FileName="Assets\ColoRacing\scripts\BonusBehavior.js" Line="90" Column="50" />
-      <File FileName="Assets\ColoRacing\scripts\Tilebehavior.js" Line="1" Column="1" />
+      <File FileName="Assets\ColoRacing\scripts\NetworkBehavior.js" Line="363" Column="2" />
+      <File FileName="Assets\ColoRacing\scripts\CharacterMove.js" Line="122" Column="12" />
+      <File FileName="Assets\ColoRacing\scripts\BonusBehavior.js" Line="67" Column="14" />
+      <File FileName="Assets\ColoRacing\scripts\Tilebehavior.js" Line="11" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
