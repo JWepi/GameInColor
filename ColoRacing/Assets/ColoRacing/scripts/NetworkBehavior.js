@@ -341,7 +341,7 @@ function SendColorValue(colorT : Color[])
 function StartServer()
 {
 	Network.InitializeServer(32, 25001, !Network.HavePublicAddress);
-	MasterServer.RegisterHost(gameName, "ColoRacing Name", "This is ColoRacing");
+	MasterServer.RegisterHost(gameName, "ColoRacing Game", "This is ColoRacing");
 }
 
 function Update()
@@ -399,8 +399,12 @@ function OnGUI()
 {
 	if (Network.peerType == NetworkPeerType.Disconnected)
 	{
+			if (hostData)
+				Debug.Log(hostData.length);
+			Debug.Log(refreshing);
+
 			board_size_ = GUI.TextField(new Rect(120,100,100,30), board_size_);
-			//IPServer = GUI.TextField(new Rect(120,170,100,30), IPServer);
+			IPServer = GUI.TextField(new Rect(120,170,100,30), IPServer);
 			//MaxPlayer = GUI.TextField(new Rect(230,100,100,30), MaxPlayer);
 			if (GUI.Button (new Rect(10,100,100,30),"Start Server") && board_size_ != "Map size"/* && MaxPlayer != "Max player"*/)
 			{
@@ -408,11 +412,11 @@ function OnGUI()
 				//maxPlayer = parseInt(MaxPlayer);
 				StartServer();
 			}
-			if (GUI.Button (new Rect(10,170,100,30),"Refresh Host"))
+			/*if (GUI.Button (new Rect(10,170,100,30),"Refresh Host"))
 			{
 				RefreshHostList();
 			}
-			if (hostData)
+			/*if (hostData)
 			{
 				for (var i = 0; i < hostData.length; i++)
 					if (GUI.Button (new Rect(150,170,150,30), hostData[i].gameName))
@@ -420,11 +424,11 @@ function OnGUI()
 						Debug.Log(hostData[i].ip);
 						Network.Connect(hostData[i]);
 					}
-			}
-			/*if (GUI.Button (new Rect(10,170,100,30),"Connect"))
+			}*/
+			if (GUI.Button (new Rect(10,170,100,30),"Connect"))
 			{
 				Network.Connect(IPServer, 25001);
-			}*/
+			}
 	}
 	else
 	{
